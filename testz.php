@@ -21,22 +21,24 @@
 	$questionsArray = $quizDetails['questions'];
 	$answersArray = $quizDetails['answers'];
 	$questions = explode("<>", $questionsArray);
-	$answers = explode("<>", $answersArray);
-	
-	echo sizeof($questions)."<br><br>";
 	foreach ($questions as $question)
 	{
-		$questionPieces = explode("^^", $question);
-		foreach ($questionPieces as $questionPiece)
+		$questionPieces[] = explode("^^", $question);
+	}
+	$answers = explode("<>", $answersArray);
+	
+	$correct = 0;
+	$temmp = array(4, 5, 6);
+	$answers = array(4, 9, 6);
+	for ($i = 0; $i < 3; $i++)
+	{
+		$userAnswers[$i] = $temmp[$i];
+		if($userAnswers[$i] == $answers[$i])
 		{
-			echo $questionPiece."<br>";
+			$correct++;
 		}
 	}
-	
-	foreach ($answers as $answer)
-	{
-		echo $answer."<br>";
-	}
+	echo "correct: ".$correct;
 	
 	echo "</center>";
 	

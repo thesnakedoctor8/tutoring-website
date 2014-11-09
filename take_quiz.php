@@ -20,13 +20,24 @@
 	$questionsArray = $quizDetails['questions'];
 	$answersArray = $quizDetails['answers'];
 	$questions = explode("<>", $questionsArray);
+	foreach ($questions as $question)
+	{
+		$questionPieces[] = explode("^^", $question);
+	}
 	$answers = explode("<>", $answersArray);
 	
 	//Forms posted
 	if(!empty($_POST))
 	{
-		// answers
-		// grab posts and check against answer key
+		$correct = 0;
+		for ($i = 0; $i < sizeof($questions)-1; $i++)
+		{
+			$userAnswers[$i] = $_POST["question".$i."answer"];
+			if($userAnswers[$i] == $answers[$i])
+			{
+				$correct++;
+			}
+		}
 	}
 	
 	require_once("models/header.php");
@@ -34,67 +45,100 @@
 	echo "<center>";
 	
 	echo "
-	<h2>Create Quiz For: ".$subjectDetails['name']."</h2>
-	<br>
+	<h2>".$name."</h2>
+	<br>";
 	
-	<div style='width:500px;'>
-		<form name='takeQuiz' class='form-horizontal' action='' method='post'>";
-			for ($i = 0; $i < sizeof($questions); $i++)
-			{
-				echo "
-				<div class='form-group'>
-					<label class='col-sm-4 control-label'>Question ".$i."</label>
-					<div class='col-sm-8'>
-						<textarea class='form-control' name='question".$i."' rows='2' ></textarea>
+	if(empty($_POST))
+	{	
+		echo "		
+		<div style='width:500px;'>
+			<form name='takeQuiz' class='form-horizontal' action='' method='post'>
+				<div class='jumbotron'>";
+					for ($i = 0; $i < sizeof($questions)-1; $i++)
+					{
+						echo "
+						<div class='form-group'>
+							<h4>".$questionPieces[$i][0]."</h4>
+						</div>
+						<div class='form-group'>
+							<h5>1)  ".$questionPieces[$i][1]."</h5>
+						</div>
+						<div class='form-group'>
+							<h5>2)  ".$questionPieces[$i][2]."</h5>
+						</div>
+						<div class='form-group'>
+							<h5>3)  ".$questionPieces[$i][3]."</h5>
+						</div>
+						<div class='form-group'>
+							<h5>4)  ".$questionPieces[$i][4]."</h5>
+						</div>
+						<div class='form-group'>
+							<label class='col-sm-5 control-label'>Answer</label>
+							<div class='col-sm-3'>
+								<select class='form-control' name='question".$i."answer'>
+									<option value='1'>1</option>
+									<option value='2'>2</option>
+									<option value='3'>3</option>
+									<option value='4'>4</option>
+								</select>
+							</div>
+						</div>
+						<br>";
+					}
+				
+					echo "
+					<div class='form-group'>
+						<button type='submit' class='btn btn-primary' name='Submit'>Submit Quiz</button>
 					</div>
-				</div>
-				<div class='form-group'>
-					<label class='col-sm-5 control-label'>Answer 1</label>
-					<div class='col-sm-7'>
-						<input type='text' class='form-control' name='question".$i."answer1'>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label class='col-sm-5 control-label'>Answer 2</label>
-					<div class='col-sm-7'>
-						<input type='text' class='form-control' name='question".$i."answer2'>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label class='col-sm-5 control-label'>Answer 3</label>
-					<div class='col-sm-7'>
-						<input type='text' class='form-control' name='question".$i."answer3'>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label class='col-sm-5 control-label'>Answer 4</label>
-					<div class='col-sm-7'>
-						<input type='text' class='form-control' name='question".$i."answer4'>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label class='col-sm-6 control-label'>Answer Key</label>
-					<div class='col-sm-6'>
-						<select class='form-control' name='question".$i."answerKey'>
-							<option value='1'>1</option>
-							<option value='2'>2</option>
-							<option value='3'>3</option>
-							<option value='4'>4</option>
-						</select>
-					</div>
-				</div>
-				<br>";
-			}
-			
+				</div>";
 			echo "
-			<div class='form-group'>
-				<div class='col-sm-offset-5 col-sm-7'>
-					<button type='submit' class='btn btn-primary' name='Submit'>Submit Quiz</button>
-				</div>
-			</div>";
-		echo "
-		</form>			
-	</div>";
+			</form>			
+		</div>";
+	}
+	else
+	{
+		echo "		
+		<div style='width:500px;'>
+			<form name='takeQuiz' class='form-horizontal' action='subject.php' method='link'>
+				<div class='jumbotron'>";
+					for ($i = 0; $i < sizeof($questions)-1; $i++)
+					{
+						echo "
+						<div class='form-group'>
+							<h4>".$questionPieces[$i][0]."</h4>
+						</div>
+						<div class='form-group'>
+							<label class='col-sm-4 control-label'>Correct Answer</label>
+							<div class='col-sm-4'>
+								<h5>".$answers[$i]."</h5>
+							</div>
+						</div>
+						<div class='form-group'>
+							<label class='col-sm-4 control-label'>Your Answer</label>
+							<div class='col-sm-4'>";
+								if($answers[$i] == $userAnswers[$i])
+								{
+									echo "<h5><span class='label label-success'>".$userAnswers[$i]."</span></h5>";
+								}
+								else
+								{
+									echo "<h5><span class='label label-danger'>".$userAnswers[$i]."</span></h5>";
+								}
+							echo "	
+							</div>
+						</div>
+						<br>";
+					}
+				
+					echo "
+					<div class='form-group'>
+						<button type='submit' class='btn btn-primary' name='Return'>Done</button>
+					</div>
+				</div>";
+			echo "
+			</form>			
+		</div>";
+	}
 	
 	echo "</center>";
 	
