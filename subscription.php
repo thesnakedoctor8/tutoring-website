@@ -8,7 +8,7 @@
 	
 	if(isset($_GET['subject']))
 	{
-		// Error check for manually entering incorrect strings in URL
+		// TODO Error check for manually entering incorrect strings in URL
 		$_SESSION['subjectSelected'] = $_GET['subject'];
 	}
 	else

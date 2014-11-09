@@ -16,7 +16,10 @@
 	}
 
 	$subjectDetails = fetchSubjectDetails($subjectId); //Fetch information specific to subject level
-
+	$quizzes = fetchAllQuizzes($subjectId);
+	$videos = fetchAllResources($subjectId, "video");
+	$links = fetchAllResources($subjectId, "link");
+	
 	//Forms posted
 	if(!empty($_POST))
 	{
@@ -191,20 +194,124 @@
 							<th>Quizzes</th>
 							<th>Quiz Names</th>
 						</tr>
-					</thead>	
-
-					<tr>
-						<td>
-							<b>TODO</b>
-						</td>
-						<td>
-							<b>TODO</b>
-						</td>
-					</tr>
+					</thead>";
+					if(!empty($quizzes))
+					{
+						foreach ($quizzes as $v1)
+						{
+							echo "
+							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
+							
+							echo "
+							<tr>
+								<td>
+									".$v1['id']."
+								</td>
+								<td>
+									<a href='edit_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>
+								</td>
+							</tr>";
+						}
+					}
+					else
+					{
+						echo "
+						<tr>
+							<td>
+								No Quizzes
+							</td>
+							<td>
+								No Quizzes
+							</td>
+						</tr>";
+					}
 					
+					echo "
+					<thead>
+						<tr>
+							<th>Videos</th>
+							<th>Video Names</th>
+						</tr>
+					</thead>";
+					if(!empty($videos))
+					{
+						foreach ($videos as $v1)
+						{
+							echo "
+							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
+							
+							echo "
+							<tr>
+								<td>
+									".$v1['id']."
+								</td>
+								<td>
+									<a href='edit_resource.php?id=".$v1['id']."'>".$v1['name']."</a>
+								</td>
+							</tr>";
+						}
+					}
+					else
+					{
+						echo "
+						<tr>
+							<td>
+								No videos
+							</td>
+							<td>
+								No videos
+							</td>
+						</tr>";
+					}
+					
+					echo "
+					<thead>
+						<tr>
+							<th>Links</th>
+							<th>Link Names</th>
+						</tr>
+					</thead>";
+					if(!empty($links))
+					{
+						foreach ($links as $v1)
+						{
+							echo "
+							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
+							
+							echo "
+							<tr>
+								<td>
+									".$v1['id']."
+								</td>
+								<td>
+									<a href='edit_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>
+								</td>
+							</tr>";
+						}
+					}
+					else
+					{
+						echo "
+						<tr>
+							<td>
+								No links
+							</td>
+							<td>
+								No links
+							</td>
+						</tr>";
+					}
+					
+				echo "
 				</tbody>
 			</table>
 			<input type='submit' value='Update' class='btn btn-primary' style='max-width:200px;' />
+			
+			<br>
+			<br>
+			<div class='form-group'>
+				<a href='create_quiz.php?id=".$subjectId."'>New Quiz</a> - <a href='add_videos.php?id=".$subjectId."'>Add Videos</a> - <a href='add_links.php?id=".$subjectId."'>Add Links</a>
+			</div>
 		</form>
 	</div>";
 	

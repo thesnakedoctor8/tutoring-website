@@ -616,31 +616,6 @@
 		$result = $stmt->execute();
 		$stmt->close();	
 		
-		//TODO FIX THIS. NOT WORKING
-		// Add a new subject column in the subscription table
-		
-		// ALTER TABLE  `uc_subscriptions` ADD  `21` BOOLEAN NULL DEFAULT NULL ;
-		// ALTER TABLE  `uc_subscriptions` ADD  `22` TINYINT( 1 ) NULL DEFAULT NULL ;
-		/*
-		$stmt = $mysqli->prepare("ALTER TABLE ".$db_table_prefix."subscriptions
-			ADD ? BOOLEAN NULL DEFAULT NULL");
-		$stmt->bind_param("s", $inserted_id);
-		$result = $stmt->execute();
-		$stmt->close();
-		
-		mysqli_query($mysqli, "ALTER TABLE ".mysqli_real_escape_string($mysqli, $db_table_prefix)."subscriptions
-			ADD ".mysqli_real_escape_string($mysqli, $inserted_id)." BOOLEAN NULL DEFAULT NULL");
-		
-		
-		$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."subscriptions
-			SET subscriptions = ?
-			WHERE
-			user_id = ?
-			LIMIT 1");
-		$stmt->bind_param("sdsi", $name, $price, $description, $id);
-		$result = $stmt->execute();
-		$stmt->close();
-		*/
 		return $result;
 	}
 
@@ -652,42 +627,19 @@
 		
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."subjects 
 			WHERE id = ?");
-		// Remove the subject column from the subscription table
-		// ALTER TABLE  `uc_subscriptions` DROP  `20`;
-		
-		//$stmt2 = $mysqli->prepare("ALTER TABLE ".$db_table_prefix."subscriptions
-		//	DROP ?");
-		
-		// TODO - REMOVE THE QUIZZES
-		//$stmt2 = $mysqli->prepare("DELETE FROM ".$db_table_prefix."quizzes
-		//	WHERE permission_id = ?");
 
 		// TODO - REMOVE THE PROGRESS/ACHEIVEMENTS with the associated QUIZZES
-		//$stmt3 = $mysqli->prepare("DELETE FROM ".$db_table_prefix."progress
-		//	WHERE permission_id = ?");
 
 		foreach($subject as $id)
 		{
 			$stmt->bind_param("i", $id);
 			$stmt->execute();
 			
-			//mysqli_query($mysqli, "ALTER TABLE ".mysqli_real_escape_string($mysqli, $db_table_prefix)."subscriptions
-			//	DROP ".mysqli_real_escape_string($mysqli, $id));
-			
-			//$stmt2->bind_param("i", $id);
-			//$stmt2->execute();
-			
-			//$stmt3->bind_param("i", $id);
-			//$stmt3->execute();
+			deleteAllSubjectResources($id);
+			deleteAllSubjectQuizzes($id);
 			$i++;
 		}
-		$stmt->close();
-		//$stmt2->close();
-		//$stmt3->close();
-			
-		
-			
-		
+		$stmt->close();		
 		return $i;
 	}
 
@@ -934,6 +886,220 @@
 			}
 		}		
 		return false;
+	}
+	
+		//Functions that interact mainly with .quizzes table
+	//------------------------------------------------------------------------------
+
+	//Add a Quiz to the DB
+	function addQuiz($name, $subject_id, $questions, $answers)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."quizzes (
+			name,
+			subject_id,
+			questions,
+			answers
+			)
+			VALUES (
+			?,
+			?,
+			?,
+			?
+			)");
+		$stmt->bind_param("siss", $name, $subject_id, $questions, $answers);
+		$result = $stmt->execute();
+		$stmt->close();	
+		
+		return $result;
+	}
+
+	//Delete a Quiz from the DB
+	function deleteQuiz($id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."quizzes 
+			WHERE id = ?");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->close();
+
+
+	}
+
+	//Delete a Quiz from the DB
+	function deleteAllSubjectQuizzes($subject_id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."quizzes 
+			WHERE subject_id = ?");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->close();
+	}
+
+	//Retrieve a specific quiz
+	function fetchQuiz($id)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			name,
+			subject_id,
+			questions,
+			answers
+			FROM ".$db_table_prefix."quizzes
+			WHERE
+			id = ?
+			LIMIT 1");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->bind_result($id, $name, $subject_id, $questions, $answers);
+		while ($stmt->fetch())
+		{
+			$row = array('id' => $id, 'name' => $name, 'subject_id' => $subject_id, 'questions' => $questions, 'answers' => $answers);
+		}
+		$stmt->close();
+		return ($row);
+	}
+
+	//Retrieve all quizzes for a subject
+	function fetchAllQuizzes($subject_id)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			name,
+			subject_id,
+			questions,
+			answers
+			FROM ".$db_table_prefix."quizzes
+			WHERE
+			subject_id = ?");
+		$stmt->bind_param("i", $subject_id);
+		$stmt->execute();
+		$stmt->bind_result($id, $name, $subject_id, $questions, $answers);
+		while ($stmt->fetch())
+		{
+			$row = array('id' => $id, 'name' => $name, 'subject_id' => $subject_id, 'questions' => $questions, 'answers' => $answers);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	//Functions that interact mainly with .resources table
+	//------------------------------------------------------------------------------
+
+	//Add a resource to the DB
+	function addResource($subject_id, $type, $name, $address)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."resources (
+			subject_id,
+			type,
+			name,
+			address
+			)
+			VALUES (
+			?,
+			?,
+			?,
+			?
+			)");
+		$stmt->bind_param("siss", $subject_id, $type, $name, $address);
+		$result = $stmt->execute();
+		$stmt->close();	
+		
+		return $result;
+	}
+
+	//Delete a specific Quiz from the DB
+	function deleteResource($id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."resources 
+			WHERE id = ?");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->close();
+	}
+
+	//Delete all Quizzes for a subject from the DB
+	function deleteAllSubjectResources($subject_id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."resources 
+			WHERE subject_id = ?");
+		$stmt->bind_param("i", $subject_id);
+		$stmt->execute();
+		$stmt->close();
+	}
+
+	//Retrieve a specific resource
+	function fetchResource($id)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			type,
+			name,
+			address
+			FROM ".$db_table_prefix."resources
+			WHERE
+			id = ?
+			LIMIT 1");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $type, $name, $address);
+		while ($stmt->fetch())
+		{
+			$row = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
+		}
+		$stmt->close();
+		return ($row);
+	}
+	
+	//Retrieve all resources for a subject
+	function fetchAllResources($subject_id, $type)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			type,
+			name,
+			address
+			FROM ".$db_table_prefix."resources
+			WHERE
+			subject_id = ?
+			AND
+			type = ?");
+		$stmt->bind_param("is", $subject_id, $type);
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $type, $name, $address);
+		while ($stmt->fetch())
+		{
+			$row = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	//Functions that interact mainly with .permissions table

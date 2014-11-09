@@ -48,10 +48,9 @@
 
 	session_start();
 	
-	if(!isset($_SESSION["subjectList"]))
-	{
-		$_SESSION["subjectList"] = fetchAllSubjects();
-	}
+	$_SESSION["subjectList"] = fetchAllSubjects();
+	
+	$_SESSION["resourcesList"] = array("Quizzes", "Videos", "Links");
 	
 	if(!isset($_SESSION["subjectSelected"]))
 	{

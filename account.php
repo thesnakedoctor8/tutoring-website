@@ -31,7 +31,7 @@
 		$subscription = explode("-", $subscriptions);
 		foreach ($subscription as $s)
 		{
-			echo fetchSubjectDetails($s)['name']."<br>";
+			echo "<a href='subject.php?id=".$s."'>".fetchSubjectDetails($s)['name']."</a><br>";
 		}
 	}
 	
