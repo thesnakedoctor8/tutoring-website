@@ -5,18 +5,25 @@
 	{
 		die();
 	}
+		
+	if(empty($_GET['id']))
+	{
+		header("Location: subject.php?id=".$_SESSION['returnSubjectId']);
+		die();
+	}
 	
 	$quizId = $_GET['id'];
 	//Check if selected subject level exists
 	if(!quizIdExists($quizId))
 	{
-		header("Location: account.php");
+		header("Location: subject.php?id=".$_SESSION['returnSubjectId']);
 		die();
 	}
 	
 	$quizDetails = fetchQuiz($quizId);
 	$name = $quizDetails['name'];
 	$subjectId = $quizDetails['subject_id'];
+	$_SESSION['returnSubjectId'] = $subjectId;
 	$questionsArray = $quizDetails['questions'];
 	$answersArray = $quizDetails['answers'];
 	$questions = explode("<>", $questionsArray);
@@ -99,7 +106,7 @@
 	{
 		echo "		
 		<div style='width:500px;'>
-			<form name='takeQuiz' class='form-horizontal' action='subject.php' method='link'>
+			<form name='takeQuiz' class='form-horizontal' action='' method='link'>
 				<div class='jumbotron'>";
 					for ($i = 0; $i < sizeof($questions)-1; $i++)
 					{
@@ -132,7 +139,7 @@
 				
 					echo "
 					<div class='form-group'>
-						<button type='submit' class='btn btn-primary' name='Return'>Done</button>
+						<button type='submit' class='btn btn-primary'>Done</button>
 					</div>
 				</div>";
 			echo "

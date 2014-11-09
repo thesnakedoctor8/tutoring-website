@@ -637,6 +637,7 @@
 			
 			deleteAllSubjectResources($id);
 			deleteAllSubjectQuizzes($id);
+			
 			$i++;
 		}
 		$stmt->close();		
@@ -701,7 +702,15 @@
 			$row = array('id' => $id, 'name' => $name, 'price' => $price, 'description' => $description);
 		}
 		$stmt->close();
-		return ($row);
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	//Check if a subject ID exists in the DB
@@ -759,11 +768,11 @@
 	//Update a subject
 	function updateSubject($id, $name, $price, $description)
 	{
-		global $mysqli,$db_table_prefix;
+		global $mysqli, $db_table_prefix;
 		$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."subjects
-			SET name = ?
-			SET price = ?
-			SET description = ?
+			SET name = ?,
+			price = ?,
+			description = ?
 			WHERE
 			id = ?
 			LIMIT 1");
@@ -917,14 +926,18 @@
 	//Delete a Quiz from the DB
 	function deleteQuiz($id)
 	{
-		global $mysqli, $db_table_prefix;
+		global $mysqli, $db_table_prefix; 
+		$i = 0;
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."quizzes 
 			WHERE id = ?");
-		$stmt->bind_param("i", $id);
-		$stmt->execute();
-		$stmt->close();
-
-
+		foreach($id as $ids)
+		{
+			$stmt->bind_param("i", $ids);
+			$stmt->execute();			
+			$i++;
+		}
+		$stmt->close();		
+		return $i;
 	}
 
 	//Delete a Quiz from the DB
@@ -933,7 +946,7 @@
 		global $mysqli, $db_table_prefix;
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."quizzes 
 			WHERE subject_id = ?");
-		$stmt->bind_param("i", $id);
+		$stmt->bind_param("i", $subject_id);
 		$stmt->execute();
 		$stmt->close();
 	}
@@ -1050,12 +1063,18 @@
 	//Delete a specific Quiz from the DB
 	function deleteResource($id)
 	{
-		global $mysqli, $db_table_prefix;
+		global $mysqli, $db_table_prefix; 
+		$i = 0;
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."resources 
 			WHERE id = ?");
-		$stmt->bind_param("i", $id);
-		$stmt->execute();
-		$stmt->close();
+		foreach($id as $ids)
+		{
+			$stmt->bind_param("i", $ids);
+			$stmt->execute();			
+			$i++;
+		}
+		$stmt->close();		
+		return $i;
 	}
 
 	//Delete all Quizzes for a subject from the DB

@@ -92,7 +92,7 @@
 					foreach ($quizzes as $v1)
 					{
 						echo "
-						<h4><a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a></h4>";
+						<h4><a href='take_quiz.php?id=".$v1['id']."&subject_id=".$subjectId."'>".$v1['name']."</a></h4>";
 					}
 				}
 				else

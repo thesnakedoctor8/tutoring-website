@@ -122,16 +122,20 @@ $lang = array_merge($lang,array(
 //Subjects
 $lang = array_merge($lang,array(
 	"SUBJECT_CHAR_LIMIT"			=> "Subject names must be between %m1% and %m2% characters in length",
-	"SUBJECT_NAME_IN_USE"		=> "Subject name %m1% is already in use",
+	"SUBJECT_NAME_IN_USE"			=> "Subject name %m1% is already in use",
 	"SUBJECT_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Subject",
 	"SUBJECT_CREATION_SUCCESSFUL"	=> "Successfully created the Subject `%m1%`",
-	"SUBJECT_NAME_UPDATE"		=> "Subject name changed to `%m1%`",
+	"SUBJECT_NAME_UPDATE"			=> "Subject name changed to `%m1%`",
+	"SUBJECT_PRICE_UPDATE"			=> "Subject price changed to `%m1%` dollars",
+	"SUBJECT_DESCRIPTION_UPDATE"	=> "Subject description updated",
+	"SUBJECT_PRICE_ERROR"			=> "Subject price must be between %m1% and %m2% dollars",
 	));
 	
 //Quizzes
 $lang = array_merge($lang,array(
-	"QUIZ_ADDED"		=> "Quiz successfully added",
-	"QUIZ_FORMAT_ERROR"	=> "Invalid form data entered",
-	"QUIZ_ERROR"		=> "Error Adding Quiz",
+	"QUIZ_ADDED"				=> "Quiz successfully added",
+	"QUIZ_FORMAT_ERROR"			=> "Invalid form data entered",
+	"QUIZ_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Quiz",
+	"QUIZ_ERROR"				=> "Error Adding Quiz",
 	));
 ?>
