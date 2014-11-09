@@ -293,7 +293,7 @@
 				<br>
 				<br>
 				<div class='form-group'>
-					<h4><a href='create_quiz.php?id=".$subjectId."'>New Quiz</a> - <a href='add_videos.php?id=".$subjectId."'>Add Videos</a> - <a href='add_links.php?id=".$subjectId."'>Add Links</a></h4>
+					<h4><a href='create_quiz.php?id=".$subjectId."'>New Quiz</a> - <a href='content_resources.php?subject_id=".$subjectId."&type=video'>Add Videos</a> - <a href='content_resources.php?subject_id=".$subjectId."&type=link'>Add Links</a></h4>
 				</div>
 			</form>
 		</div>";

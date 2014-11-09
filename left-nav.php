@@ -54,6 +54,7 @@
 								<ul class='dropdown-menu' role='menu'>
 									<li><a href='content_subjects.php'>Content Subjects</a></li>
 									<li><a href='content_quizzes.php'>Content Quizzes</a></li>
+									<li><a href='content_resources.php'>Content Resources</a></li>
 								</ul>
 							</li>";
 						}

@@ -107,7 +107,7 @@
 					foreach ($videos as $v1)
 					{
 						echo "
-						";
+						<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
 					}
 				}
 				else
@@ -122,7 +122,7 @@
 					foreach ($links as $v1)
 					{
 						echo "
-						";
+						<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
 					}
 				}
 				else

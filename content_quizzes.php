@@ -30,7 +30,7 @@
 
 	echo "
 	<div style='width:600px;'>
-		<h2>Admin Users</h2>
+		<h2>Quizzes</h2>
 		
 		<form name='adminUsers' action='".$_SERVER['PHP_SELF']."' method='post'>
 			<table class='table table-striped'>
