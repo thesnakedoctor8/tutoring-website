@@ -197,7 +197,7 @@
 										".$v1['id']." <input type='checkbox' name='deleteQuiz[".$v1['id']."]' id='deleteQuiz[".$v1['id']."]' value='".$v1['id']."'>
 									</td>
 									<td>
-										<a href='edit_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>
+										<a href='content_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>
 									</td>
 								</tr>";
 							}
@@ -232,7 +232,7 @@
 										".$v1['id']."
 									</td>
 									<td>
-										<a href='edit_resource.php?id=".$v1['id']."'>".$v1['name']."</a>
+										<a href='content_resource.php?id=".$v1['id']."'>".$v1['name']."</a>
 									</td>
 								</tr>";
 							}
@@ -267,7 +267,7 @@
 										".$v1['id']."
 									</td>
 									<td>
-										<a href='edit_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>
+										<a href='content_resource.php?id=".$v1['id']."'>".$v1['name']."</a>
 									</td>
 								</tr>";
 							}

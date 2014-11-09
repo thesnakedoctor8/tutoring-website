@@ -53,6 +53,7 @@
 								<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Content Menu<span class='caret'></span></a>
 								<ul class='dropdown-menu' role='menu'>
 									<li><a href='content_subjects.php'>Content Subjects</a></li>
+									<li><a href='content_quizzes.php'>Content Quizzes</a></li>
 								</ul>
 							</li>";
 						}

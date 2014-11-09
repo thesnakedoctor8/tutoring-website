@@ -106,7 +106,7 @@
 	{
 		echo "		
 		<div style='width:500px;'>
-			<form name='takeQuiz' class='form-horizontal' action='' method='link'>
+			<form name='showAnswers' class='form-horizontal' action='' method='link'>
 				<div class='jumbotron'>";
 					for ($i = 0; $i < sizeof($questions)-1; $i++)
 					{
@@ -136,13 +136,14 @@
 						</div>
 						<br>";
 					}
-				
-					echo "
+					$scorePercent = 100*number_format($correct/sizeof($userAnswers), 2, '.', '');
+					echo 
+					"<h3>Score: ".$correct."/".sizeof($userAnswers)." (".$scorePercent."%)</h3>
+					<br>
 					<div class='form-group'>
 						<button type='submit' class='btn btn-primary'>Done</button>
 					</div>
-				</div>";
-			echo "
+				</div>
 			</form>			
 		</div>";
 	}

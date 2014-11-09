@@ -138,4 +138,12 @@ $lang = array_merge($lang,array(
 	"QUIZ_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Quiz",
 	"QUIZ_ERROR"				=> "Error Adding Quiz",
 	));
+	
+//Resources
+$lang = array_merge($lang,array(
+	"RESOURCE_ADDED"				=> "Resource successfully added",
+	"RESOURCE_FORMAT_ERROR"			=> "Invalid form data entered",
+	"RESOURCE_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Resource",
+	"RESOURCE_ERROR"				=> "Error Adding Resource",
+	));
 ?>

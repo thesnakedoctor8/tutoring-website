@@ -1008,6 +1008,35 @@
 		}
 	}
 
+	//Retrieve all quizzes
+	function fetchEveryQuizzes()
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			name,
+			subject_id,
+			questions,
+			answers
+			FROM ".$db_table_prefix."quizzes");
+		$stmt->execute();
+		$stmt->bind_result($id, $name, $subject_id, $questions, $answers);
+		while ($stmt->fetch())
+		{
+			$row[] = array('id' => $id, 'name' => $name, 'subject_id' => $subject_id, 'questions' => $questions, 'answers' => $answers);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	//Check if a quiz ID exists in the DB
 	function quizIdExists($id)
 	{

@@ -21,8 +21,6 @@
 	}
 
 	$userData = fetchAllUsers(); //Fetch information for all users
-
-	require_once("models/header.php");
 	
 	require_once("models/header.php");
 	
