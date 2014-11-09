@@ -127,4 +127,11 @@ $lang = array_merge($lang,array(
 	"SUBJECT_CREATION_SUCCESSFUL"	=> "Successfully created the Subject `%m1%`",
 	"SUBJECT_NAME_UPDATE"		=> "Subject name changed to `%m1%`",
 	));
+	
+//Quizzes
+$lang = array_merge($lang,array(
+	"QUIZ_ADDED"		=> "Quiz successfully added",
+	"QUIZ_FORMAT_ERROR"	=> "Invalid form data entered",
+	"QUIZ_ERROR"		=> "Error Adding Quiz",
+	));
 ?>

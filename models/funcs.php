@@ -981,7 +981,7 @@
 		$stmt->bind_result($id, $name, $subject_id, $questions, $answers);
 		while ($stmt->fetch())
 		{
-			$row = array('id' => $id, 'name' => $name, 'subject_id' => $subject_id, 'questions' => $questions, 'answers' => $answers);
+			$row[] = array('id' => $id, 'name' => $name, 'subject_id' => $subject_id, 'questions' => $questions, 'answers' => $answers);
 		}
 		$stmt->close();
 		
@@ -995,6 +995,32 @@
 		}
 	}
 
+	//Check if a quiz ID exists in the DB
+	function quizIdExists($id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("SELECT
+			id
+			FROM ".$db_table_prefix."quizzes
+			WHERE
+			id = ?
+			LIMIT 1");
+		$stmt->bind_param("i", $id);	
+		$stmt->execute();
+		$stmt->store_result();
+		$num_returns = $stmt->num_rows;
+		$stmt->close();
+		
+		if ($num_returns > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;	
+		}
+	}
+	
 	//Functions that interact mainly with .resources table
 	//------------------------------------------------------------------------------
 
@@ -1088,7 +1114,7 @@
 		$stmt->bind_result($id, $subject_id, $type, $name, $address);
 		while ($stmt->fetch())
 		{
-			$row = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
+			$row[] = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
 		}
 		$stmt->close();
 		
@@ -1099,6 +1125,32 @@
 		else
 		{
 			return null;
+		}
+	}
+	
+	//Check if a quiz ID exists in the DB
+	function resourceIdExists($id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("SELECT
+			id
+			FROM ".$db_table_prefix."resources
+			WHERE
+			id = ?
+			LIMIT 1");
+		$stmt->bind_param("i", $id);	
+		$stmt->execute();
+		$stmt->store_result();
+		$num_returns = $stmt->num_rows;
+		$stmt->close();
+		
+		if ($num_returns > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;	
 		}
 	}
 	

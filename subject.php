@@ -84,7 +84,7 @@
 		</div>
 
 		<div class='col-md-9 jumbotron'>
-			<center><h2>".fetchSubjectDetails($subjectId)['name']." - ".$_SESSION['resourceSelected']."</h2></center>";
+			<center><h2>".fetchSubjectDetails($subjectId)['name']." - ".$_SESSION['resourceSelected']."</h2></center><br>";
 			if($_SESSION["resourceSelected"] == "Quizzes")
 			{
 				if(!empty($quizzes))
@@ -92,12 +92,12 @@
 					foreach ($quizzes as $v1)
 					{
 						echo "
-						<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
+						<h4><a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a></h4>";
 					}
 				}
 				else
 				{
-					echo "No quizzes available for this subject yet";
+					echo "<h4>No quizzes available for this subject yet</h4>";
 				}
 			}
 			else if($_SESSION["resourceSelected"] == "Videos")
@@ -112,7 +112,7 @@
 				}
 				else
 				{
-					echo "No videos available for this subject yet";
+					echo "<h4>No videos available for this subject yet</h4>";
 				}
 			}
 			else if($_SESSION["resourceSelected"] == "Links")
@@ -127,12 +127,12 @@
 				}
 				else
 				{
-					echo "No links available for this subject yet";
+					echo "<h4>No links available for this subject yet</h4>";
 				}
 			}
 			else
 			{
-				echo "Select a subject";
+				echo "<h4>Select a subject</h4>";
 			}
 		echo "
 		</div>

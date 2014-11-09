@@ -23,6 +23,7 @@
 	//Forms posted
 	if(!empty($_POST))
 	{
+		
 	/*
 		//Delete selected subject level
 		if(!empty($_POST['delete']))
@@ -200,9 +201,6 @@
 						foreach ($quizzes as $v1)
 						{
 							echo "
-							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
-							
-							echo "
 							<tr>
 								<td>
 									".$v1['id']."
@@ -238,9 +236,6 @@
 						foreach ($videos as $v1)
 						{
 							echo "
-							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
-							
-							echo "
 							<tr>
 								<td>
 									".$v1['id']."
@@ -274,10 +269,7 @@
 					if(!empty($links))
 					{
 						foreach ($links as $v1)
-						{
-							echo "
-							<a href='take_quiz.php?id=".$v1['id']."'>".$v1['name']."</a>";
-							
+						{							
 							echo "
 							<tr>
 								<td>
