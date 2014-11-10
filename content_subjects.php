@@ -19,7 +19,6 @@
 			}
 		}
 		
-		//Create new permission level
 		if(!empty($_POST['newSubjectName']) && !empty($_POST['newSubjectPrice']) && !empty($_POST['newSubjectDescription']))
 		{
 			$subject = trim($_POST['newSubjectName']);
@@ -78,7 +77,7 @@
 						echo "
 						<tr>
 							<td>
-								<input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'>
+								<input type='checkbox' name='delete[".$v1['id']."]' id='delete[".$v1['id']."]' value='".$v1['id']."'> ".$v1['id']."
 							</td>
 							<td>
 								<a href='content_subject.php?id=".$v1['id']."'>".$v1['name']."</a>

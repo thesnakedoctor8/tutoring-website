@@ -6,36 +6,42 @@
 		die();
 	}
 	
-	require_once("models/header.php");
+	$subscriptions = fetchAllSubscriptions($loggedInUser->user_id);
 	
-	
+	require_once("models/header.php");	
 	
 	echo "
 	<center>
-	Hello, $loggedInUser->displayname
-	<br>
-	User title: $loggedInUser->title  (can be changed in the admin panel)
-	<br>
-	Registered on: " . date("M d, Y", $loggedInUser->signupTimeStamp()) . "
-	<br>
-	<br>";
-	
-	$subscriptions = fetchAllSubscriptions($loggedInUser->user_id);
-	if($subscriptions == null)
-	{
-		echo "No Subscriptions";
-	}
-	else
-	{
-		echo "Subscribed to:<br>";
-		$subscription = explode("-", $subscriptions);
-		foreach ($subscription as $s)
-		{
-			echo "<a href='subject.php?id=".$s."'>".fetchSubjectDetails($s)['name']."</a><br>";
-		}
-	}
-	
-	echo "
+		<div style='width:700px;'>
+			<div class='jumbotron'>
+				<h2>Hello $loggedInUser->displayname</h2>
+				<br>
+				<h4>
+				User title: $loggedInUser->title
+				<br>
+				<br>
+				Registered on: ".date("M d, Y", $loggedInUser->signupTimeStamp())."
+				</h4>
+			</div>
+		</div>
+		
+		<div class='list-group' style='width:300px;'>
+			<a href='' class='list-group-item active'>Your Subscriptions</a>";
+			if($subscriptions == null)
+			{
+				echo "<a href='' class='list-group-item'>No Subscriptions</a>";
+				
+			}
+			else
+			{
+				$subscription = explode("-", $subscriptions);
+				foreach ($subscription as $s)
+				{
+					echo "<a href='subject.php?id=".$s."' class='list-group-item'>".fetchSubjectDetails($s)['name']."</a>";
+				}
+			}
+			echo "
+		</div>
 	</center>";
 	
 	include 'models/footer.php';

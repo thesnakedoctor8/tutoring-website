@@ -135,6 +135,7 @@ $lang = array_merge($lang,array(
 $lang = array_merge($lang,array(
 	"QUIZ_ADDED"				=> "Quiz successfully added",
 	"QUIZ_FORMAT_ERROR"			=> "Invalid form data entered",
+	"QUIZ_CREATION_SUCCESSFUL"	=> "Successfully created the quiz `%m1%`",
 	"QUIZ_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Quiz",
 	"QUIZ_ERROR"				=> "Error Adding Quiz",
 	));
@@ -143,6 +144,7 @@ $lang = array_merge($lang,array(
 $lang = array_merge($lang,array(
 	"RESOURCE_ADDED"				=> "Resource successfully added",
 	"RESOURCE_FORMAT_ERROR"			=> "Invalid form data entered",
+	"RESOURCE_CREATION_SUCCESSFUL"	=> "Successfully created the resource `%m1%`",
 	"RESOURCE_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Resource",
 	"RESOURCE_ERROR"				=> "Error Adding Resource",
 	));

@@ -764,7 +764,7 @@
 			return false;	
 		}
 	}
-
+	
 	//Update a subject
 	function updateSubject($id, $name, $price, $description)
 	{
@@ -853,8 +853,7 @@
 			subscriptions
 			FROM ".$db_table_prefix."subscriptions
 			WHERE
-			user_id = ?
-			LIMIT 1");
+			user_id = ?");
 		$stmt->bind_param("i", $user_id);
 		$stmt->execute();
 		$stmt->bind_result($subscriptions);
@@ -1068,7 +1067,7 @@
 
 	//Add a resource to the DB
 	function addResource($subject_id, $type, $name, $address)
-	{
+	{		
 		global $mysqli, $db_table_prefix; 
 		$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."resources (
 			subject_id,
@@ -1082,7 +1081,7 @@
 			?,
 			?
 			)");
-		$stmt->bind_param("siss", $subject_id, $type, $name, $address);
+		$stmt->bind_param("isss", $subject_id, $type, $name, $address);
 		$result = $stmt->execute();
 		$stmt->close();	
 		
@@ -1090,15 +1089,15 @@
 	}
 
 	//Delete a specific Quiz from the DB
-	function deleteResource($id)
+	function deleteResource($ids)
 	{
 		global $mysqli, $db_table_prefix; 
 		$i = 0;
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."resources 
 			WHERE id = ?");
-		foreach($id as $ids)
+		foreach($ids as $id)
 		{
-			$stmt->bind_param("i", $ids);
+			$stmt->bind_param("i", $id);
 			$stmt->execute();			
 			$i++;
 		}
@@ -1176,7 +1175,66 @@
 		}
 	}
 	
-	//Check if a quiz ID exists in the DB
+	function fetchAllResourcesType($type)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			type,
+			name,
+			address
+			FROM ".$db_table_prefix."resources
+			WHERE
+			type = ?");
+		$stmt->bind_param("s", $type);
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $type, $name, $address);
+		while ($stmt->fetch())
+		{
+			$row[] = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	function fetchEveryResources()
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			type,
+			name,
+			address
+			FROM ".$db_table_prefix."resources");
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $type, $name, $address);
+		while ($stmt->fetch())
+		{
+			$row[] = array('id' => $id, 'subject_id' => $subject_id, 'type' => $type, 'name' => $name, 'address' => $address);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	//Check if a resource ID exists in the DB
 	function resourceIdExists($id)
 	{
 		global $mysqli, $db_table_prefix;

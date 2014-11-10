@@ -26,7 +26,7 @@
 	
 	echo "<center>";
 
-	echo resultBlock($errors,$successes);
+	echo resultBlock($errors, $successes);
 
 	echo "
 	<div style='width:800px;'>
