@@ -285,7 +285,7 @@
 			return false;	
 		}
 	}
-
+	
 	//Retrieve information for all users
 	function fetchAllUsers()
 	{
@@ -632,6 +632,16 @@
 
 		foreach($subject as $id)
 		{
+			// Remove the subscription from all subscribed users
+			$userData = fetchAllUsers();
+			foreach ($userData as $v1)
+			{
+				if(alreadySubscribed($v1['id'], $id))
+				{
+					deleteSubscription($v1['id'], $id);
+				}
+			}
+		
 			$stmt->bind_param("i", $id);
 			$stmt->execute();
 			
@@ -1060,6 +1070,24 @@
 		{
 			return false;	
 		}
+	}
+	
+	//Update a quiz
+	function updateQuiz($id, $name, $subject_id, $questions, $answers)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("UPDATE ".$db_table_prefix."quizzes
+			SET name = ?,
+			subject_id = ?,
+			questions = ?,
+			answers = ?
+			WHERE
+			id = ?
+			LIMIT 1");
+		$stmt->bind_param("sissi", $name, $subject_id, $questions, $answers, $id);
+		$result = $stmt->execute();
+		$stmt->close();	
+		return $result;	
 	}
 	
 	//Functions that interact mainly with .resources table

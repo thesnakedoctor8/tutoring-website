@@ -1,8 +1,4 @@
 <?php
-/*
-UserCake Version: 2.0.2
-http://usercake.com
-*/
 
 /*
 %m1% - Dymamic markers which are replaced at run time by the relevant index.
@@ -134,10 +130,12 @@ $lang = array_merge($lang,array(
 //Quizzes
 $lang = array_merge($lang,array(
 	"QUIZ_ADDED"				=> "Quiz successfully added",
+	"QUIZ_UPDATED"				=> "Quiz successfully updated",
 	"QUIZ_FORMAT_ERROR"			=> "Invalid form data entered",
 	"QUIZ_CREATION_SUCCESSFUL"	=> "Successfully created the quiz `%m1%`",
 	"QUIZ_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Quiz",
 	"QUIZ_ERROR"				=> "Error Adding Quiz",
+	"QUIZ_UPDATED_ERROR"		=> "Error Updating Quiz",
 	));
 	
 //Resources

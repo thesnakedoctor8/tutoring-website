@@ -15,7 +15,7 @@
 			$deletions = $_POST['delete'];
 			if ($deletion_count = deleteSubject($deletions))
 			{
-				$successes[] = lang("PERMISSION_DELETIONS_SUCCESSFUL", array($deletion_count));
+				$successes[] = lang("SUBJECT_DELETIONS_SUCCESSFUL", array($deletion_count));
 			}
 		}
 		

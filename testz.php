@@ -15,30 +15,17 @@
 
 	echo "test1<br>";
 	
-	$quizDetails = fetchQuiz(2);
-	$name = $quizDetails['name'];
-	$subjectId = $quizDetails['subject_id'];
-	$questionsArray = $quizDetails['questions'];
-	$answersArray = $quizDetails['answers'];
-	$questions = explode("<>", $questionsArray);
-	foreach ($questions as $question)
-	{
-		$questionPieces[] = explode("^^", $question);
-	}
-	$answers = explode("<>", $answersArray);
+	$subject = 34;
 	
-	$correct = 0;
-	$temmp = array(4, 5, 6);
-	$answers = array(4, 9, 6);
-	for ($i = 0; $i < 3; $i++)
+	// Remove the subscription from all subscribed users
+	$userData = fetchAllUsers();
+	foreach ($userData as $v1)
 	{
-		$userAnswers[$i] = $temmp[$i];
-		if($userAnswers[$i] == $answers[$i])
+		if(alreadySubscribed($v1['id'], $subject))
 		{
-			$correct++;
+			//deleteSubscription($v1['id'], $subject);
 		}
 	}
-	echo "correct: ".$correct;
 	
 	echo "</center>";
 	
