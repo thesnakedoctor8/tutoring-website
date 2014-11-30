@@ -7,6 +7,7 @@
 	}
 	
 	$subscriptions = fetchAllSubscriptions($loggedInUser->user_id);
+	$achievements = fetchAchievements($loggedInUser->user_id);
 	
 	require_once("models/header.php");	
 	
@@ -25,22 +26,49 @@
 			</div>
 		</div>
 		
-		<div class='list-group' style='width:300px;'>
-			<a href='' class='list-group-item active'>Your Subscriptions</a>";
-			if($subscriptions == null)
-			{
-				echo "<a href='' class='list-group-item'>No Subscriptions</a>";
-				
-			}
-			else
-			{
-				$subscription = explode("-", $subscriptions);
-				foreach ($subscription as $s)
+		
+		<div class='col-md-5'>
+			<div class='list-group'>
+				<a href='' class='list-group-item active'>Your Subscriptions</a>";
+				if($subscriptions == null)
 				{
-					echo "<a href='subject.php?id=".$s."' class='list-group-item'>".fetchSubjectDetails($s)['name']."</a>";
+					echo "<a href='' class='list-group-item'>No Subscriptions</a>";
+					
 				}
-			}
+				else
+				{
+					$subscription = explode("-", $subscriptions);
+					foreach ($subscription as $s)
+					{
+						echo "<a href='subject.php?id=".$s."' class='list-group-item'>".fetchSubjectDetails($s)['name']."</a>";
+					}
+				}
+				echo "
+			</div>
+		</div>
+		
+		<div class='col-md-5 col-md-offset-2'>
+			<h3>Acheivements</h3>
+			<ul class='list-group'>";
+				if($achievements == null)
+				{
+					echo "
+					<li class='list-group-item'>
+						None yet
+					</li>";
+				}
+				else
+				{
+					foreach ($achievements as $a)
+					{
+						echo "
+						<li class='list-group-item'>
+							<span class='glyphicon glyphicon-list-alt'></span> - ".$a['name']."
+						</li>";
+					}
+				}
 			echo "
+			</ul>
 		</div>
 	</center>";
 	

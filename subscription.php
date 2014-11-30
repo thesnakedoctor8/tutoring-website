@@ -6,6 +6,15 @@
 		die();
 	}
 	
+	if(isUserLoggedIn())
+	{
+		$subscriptions = fetchAllSubscriptions($loggedInUser->user_id);
+	}
+	else
+	{
+		$subscriptions = NULL;
+	}
+	
 	if(isset($_GET['subject']))
 	{
 		// TODO Error check for manually entering incorrect strings in URL
@@ -19,7 +28,18 @@
 		}
 	}
 	
-	//isUserLoggedIn()
+	if(isset($_GET['unsubscribe']) && isUserLoggedIn())
+	{
+		error_log("here");
+		error_log("var: ".$_GET['unsubscribe']);
+		
+		if(alreadySubscribed($loggedInUser->user_id, $_GET['unsubscribe']))
+		{
+			error_log("should print");
+			deleteSubscription($loggedInUser->user_id, $_GET['unsubscribe']);
+			header("Location: subscription.php?subject=".$_SESSION["subjectSelected"]);
+		}
+	}
 	
 	//Forms posted
 	if(!empty($_POST))
@@ -62,7 +82,35 @@
 					}
 				}
 				echo "
-			</div>
+			</div>";
+			
+			if(isUserLoggedIn())
+			{
+				echo "
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<p class='lead'>Unsubscribe</p>
+				<div class='list-group'>";
+					if($subscriptions == null)
+					{
+						echo "<a href='' class='list-group-item'>No Subscriptions</a>";
+					}
+					else
+					{
+						$subscription = explode("-", $subscriptions);
+						foreach ($subscription as $s)
+						{
+							echo "<a href='subscription.php?subject=".$_SESSION["subjectSelected"]."&unsubscribe=".fetchSubjectDetails($s)['id']."' class='list-group-item'>".fetchSubjectDetails($s)['name']."</a>";
+						}
+					}
+				echo "
+				</div>";
+			}
+			
+		echo "
 		</div>
 
 		<div class='col-md-9 jumbotron'>";

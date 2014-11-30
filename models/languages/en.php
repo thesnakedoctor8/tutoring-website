@@ -146,4 +146,9 @@ $lang = array_merge($lang,array(
 	"RESOURCE_DELETIONS_SUCCESSFUL"	=> "Successfully deleted %m1% Resource",
 	"RESOURCE_ERROR"				=> "Error Adding Resource",
 	));
+	
+//Achievements
+$lang = array_merge($lang,array(
+	"ACHIEVEMENT_DELETIONS_SUCCESSFUL"	=> "Successfully deleted achievement(s)",
+	));
 ?>

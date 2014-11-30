@@ -55,6 +55,7 @@
 									<li><a href='content_subjects.php'>Content Subjects</a></li>
 									<li><a href='content_quizzes.php'>Content Quizzes</a></li>
 									<li><a href='content_resources.php'>Content Resources</a></li>
+									<li><a href='content_acheivements.php'>Content Acheivements</a></li>
 								</ul>
 							</li>";
 						}

@@ -195,6 +195,8 @@
 		
 		foreach($users as $id)
 		{
+			deleteUsersAchievements($id);
+			
 			$stmt->bind_param("i", $id);
 			$stmt->execute();
 			$stmt2->bind_param("i", $id);
@@ -627,8 +629,6 @@
 		
 		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."subjects 
 			WHERE id = ?");
-
-		// TODO - REMOVE THE PROGRESS/ACHEIVEMENTS with the associated QUIZZES
 
 		foreach($subject as $id)
 		{
@@ -1285,6 +1285,192 @@
 		else
 		{
 			return false;	
+		}
+	}
+	
+	//Functions that interact mainly with .achievements table
+	//------------------------------------------------------------------------------
+
+	//Add an Achievement in DB
+	function addAchievement($subject_id, $quiz_id, $user_id, $name, $score)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."achievements (
+			subject_id,
+			quiz_id,
+			user_id,
+			name,
+			score
+			)
+			VALUES (
+			?,
+			?,
+			?,
+			?,
+			?
+			)");
+		$stmt->bind_param("iiiss", $subject_id, $quiz_id, $user_id, $name, $score);
+		$result = $stmt->execute();
+		$stmt->close();	
+		
+		return $result;
+	}
+
+	//Delete an Achievement from the DB
+	function deleteAchievement($achievement_id)
+	{
+		global $mysqli, $db_table_prefix, $errors; 
+		$i = 0;
+		
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."achievements 
+			WHERE id = ?");
+
+		foreach($achievement_id as $id)
+		{
+			$stmt->bind_param("i", $id);
+			$stmt->execute();			
+			$i++;
+		}
+
+		$stmt->close();
+		return $i;
+	}
+
+	//Delete all Achievements for a user from the DB
+	function deleteUsersAchievements($user_id)
+	{
+		global $mysqli, $db_table_prefix;
+		$stmt = $mysqli->prepare("DELETE FROM ".$db_table_prefix."achievements 
+			WHERE user_id = ?");
+		$stmt->bind_param("i", $user_id);
+		$stmt->execute();
+		$stmt->close();
+	}
+	
+	//Retrieve all achievements
+	function fetchAllAchievements()
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			quiz_id,
+			user_id,
+			name,
+			score
+			FROM ".$db_table_prefix."achievements");
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $quiz_id, $user_id, $name, $score);
+		while ($stmt->fetch())
+		{
+			$row[] = array('id' => $id, 'subject_id' => $subject_id, 'quiz_id' => $quiz_id, 'user_id' => $user_id, 'name' => $name, 'score' => $score);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}			
+
+	//Retrieve achievements for a single user
+	function fetchAchievements($user_id)
+	{
+		global $mysqli, $db_table_prefix; 
+		$stmt = $mysqli->prepare("SELECT 
+			id,
+			subject_id,
+			quiz_id,
+			user_id,
+			name,
+			score
+			FROM ".$db_table_prefix."achievements
+			WHERE
+			user_id = ?");
+			$stmt->bind_param("i", $user_id);
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $quiz_id, $user_id, $name, $score);
+		while ($stmt->fetch())
+		{
+			$row[] = array('id' => $id, 'subject_id' => $subject_id, 'quiz_id' => $quiz_id, 'user_id' => $user_id, 'name' => $name, 'score' => $score);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	//Check if acheivement already exists for user
+	function acheivementExists($quiz_id, $user_id)
+	{
+		global $mysqli,$db_table_prefix;
+		$stmt = $mysqli->prepare("SELECT
+			id
+			FROM ".$db_table_prefix."achievements
+			WHERE
+			quiz_id = ?
+			AND
+			user_id = ?
+			LIMIT 1");
+		$stmt->bind_param("ii", $quiz_id, $user_id);	
+		$stmt->execute();
+		$stmt->store_result();
+		$num_returns = $stmt->num_rows;
+		$stmt->close();
+		
+		if ($num_returns > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;	
+		}
+	}
+	
+	//Retrieve achievement for quiz id and user id
+	function fetchSingleAchievement($quiz_id, $user_id)
+	{
+		global $mysqli,$db_table_prefix;
+		$stmt = $mysqli->prepare("SELECT
+			id,
+			subject_id,
+			quiz_id,
+			user_id,
+			name,
+			score
+			FROM ".$db_table_prefix."achievements
+			WHERE
+			quiz_id = ?
+			AND
+			user_id = ?
+			LIMIT 1");
+		$stmt->bind_param("ii", $quiz_id, $user_id);	
+		$stmt->execute();
+		$stmt->bind_result($id, $subject_id, $quizid, $userid, $name, $score);
+		while ($stmt->fetch())
+		{
+			$row = array('id' => $id, 'subject_id' => $subject_id, 'quiz_id' => $quizid, 'user_id' => $userid, 'name' => $name, 'score' => $score);
+		}
+		$stmt->close();
+		
+		if(!empty($row))
+		{
+			return ($row);
+		}
+		else
+		{
+			return null;
 		}
 	}
 	

@@ -106,8 +106,12 @@
 				{
 					foreach ($videos as $v1)
 					{
+						//echo "<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
 						echo "
-						<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
+						<div class='embed-responsive embed-responsive-16by9'>
+						  <iframe class='embed-responsive-item' src='//".$v1['address']."'></iframe>
+						</div>
+						<br>";
 					}
 				}
 				else
@@ -121,8 +125,7 @@
 				{
 					foreach ($links as $v1)
 					{
-						echo "
-						<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
+						echo "<h4><a href='".$v1['address']."'>".$v1['name']."</a></h4>";
 					}
 				}
 				else
