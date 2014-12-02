@@ -28,8 +28,8 @@
 		
 		
 		<div class='col-md-5'>
-			<div class='list-group'>
-				<a href='' class='list-group-item active'>Your Subscriptions</a>";
+			<h3>Your Subscriptions</h3>
+			<div class='list-group'>";
 				if($subscriptions == null)
 				{
 					echo "<a href='' class='list-group-item'>No Subscriptions</a>";
@@ -45,6 +45,7 @@
 				}
 				echo "
 			</div>
+			<a href='subscription.php' class='btn btn-primary' role='button'>Subscription Panel</a>
 		</div>
 		
 		<div class='col-md-5 col-md-offset-2'>
@@ -69,6 +70,7 @@
 				}
 			echo "
 			</ul>
+			<a href='progress.php' class='btn btn-primary' role='button'>Progress Report</a>
 		</div>
 	</center>";
 	

@@ -29,17 +29,15 @@
 	}
 	
 	if(isset($_GET['unsubscribe']) && isUserLoggedIn())
-	{
-		error_log("here");
-		error_log("var: ".$_GET['unsubscribe']);
-		
+	{		
 		if(alreadySubscribed($loggedInUser->user_id, $_GET['unsubscribe']))
 		{
-			error_log("should print");
 			deleteSubscription($loggedInUser->user_id, $_GET['unsubscribe']);
 			header("Location: subscription.php?subject=".$_SESSION["subjectSelected"]);
 		}
 	}
+	
+	require_once("models/header.php");
 	
 	//Forms posted
 	if(!empty($_POST))
@@ -60,10 +58,12 @@
 		else
 		{
 			error_log("Already subscribed");
+			$errors[] = "Already subscribed";
+			echo "<center>";
+			echo resultBlock($errors, $successes);
+			echo "</center>";
 		}
 	}
-
-	require_once("models/header.php");
 	
 	echo "
 	<div class='row'>

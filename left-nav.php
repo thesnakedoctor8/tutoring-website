@@ -28,7 +28,7 @@
 						echo "
 						<li><a href='account.php'>Account Home</a></li>
 						<li><a href='user_settings.php'>User Settings</a></li>
-						<li><a href='subscription.php'>Subscribe</a></li>";
+						<li><a href='subscription.php'>Subscription</a></li>";
 						
 						//Links for permission level 2 (default admin)
 						if ($loggedInUser->checkPermission(array(2)))
